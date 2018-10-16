@@ -1,0 +1,7 @@
+"Measure.ID","Measure.Name"
+"HAI_1_CI_LOWER","CLABSI: Lower Confidence Limit"
+"HAI_1_CI_UPPER","CLABSI: Upper Confidence Limit"
+"HAI_3_CI_UPPER","SSI: Colon Upper Confidence Limit"
+"HAI_3_CI_LOWER","SSI: Colon Lower Confidence Limit"
+"HAI_5_CI_LOWER","MRSA Lower Confidence Limit"
+"HAI_5_CI_UPPER","MRSA Upper Confidence Limit"

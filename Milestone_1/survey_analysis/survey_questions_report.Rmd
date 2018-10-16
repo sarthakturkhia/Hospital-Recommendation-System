@@ -1,0 +1,102 @@
+---
+title: "Survey Questions Report"
+author: "Adele"
+date: "2/23/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+source("survey_question_aggregation.R")
+
+# Format all question vector
+cleanliness.questions.f <- format.questions(cleanliness.questions)
+doctor.communication.related.questions.f <- format.questions(doctor.communication.related.questions)
+nurse.communication.related.questions.f <- format.questions(nurse.communication.related.questions)
+pain.management.related.questions.f <- format.questions(pain.management.related.questions)
+quietness.related.questions.f <- format.questions(quietness.related.questions)
+recommend.hospital.related.questions.f <- format.questions(recommend.hospital.related.questions)
+staff.responsiveness.related.questions.f <- format.questions(staff.responsiveness.related.questions)
+discharge.related.questions.f <- format.questions(discharge.related.questions)
+care.transition.related.questions.f <- format.questions(care.transition.related.questions)
+
+hospitals.administering <- format.questions(hospitals.administering)
+
+# Make tables for display
+cleanliness.table <- make.summary.table.percents(cleanliness.questions)
+doctor.table <- make.summary.table.percents(doctor.communication.related.questions)
+nurse.table <- make.summary.table.percents(nurse.communication.related.questions)
+pain.table <- make.summary.table.percents(pain.management.related.questions)
+quietness.table <- make.summary.table.percents(quietness.related.questions)
+recommend.table <- make.summary.table.percents(recommend.hospital.related.questions)
+```
+## Overview
+
+This document includes a breakdown of the different questions people were asked on a survey about their hospital stay experience.
+
+These data from these surveys was recorded from 
+
+`r hospitals.administering`
+
+hospitals only, in `r states`.
+
+## Question Categories
+
+Each of these questions had different levels, ex. Always/Sometimes/Never that the patient could answer. Their responses were recorded as percents, with one summary variable. The different levels may help us determine a scale for recommending different hospitals to people. For example, if cleanliness is very important to people, we could prefer hospitals with a high "Always" response percentage. The "HCAHPS.Answer.Percent" column contains the percentages of people who answered with that response on that survey in the hospital. The number of people who completed the survey is also recorded, which we may be able to use for a certainty measure. The response rates are also listed. We may need to consider that people tend to respond to surveys when they have a complaint, however because we are getting surveys across multiple hospitals with the same questions, this might similar across hospitals and not pose an issue because each one has the same issue similarly.
+
+### Cleanliness
+Questions:
+
+`r cleanliness.questions.f` 
+
+```{r, echo=FALSE}
+kable(cleanliness.table)
+```
+
+### Doctor & Nurse Communication
+Doctor Questions:
+
+`r doctor.communication.related.questions.f`
+
+```{r, echo=FALSE}
+kable(doctor.table)
+```
+
+Nurse Questions:
+
+`r nurse.communication.related.questions.f`
+
+```{r, echo=FALSE}
+kable(nurse.table)
+```
+
+### Pain Management
+Questions:
+
+`r pain.management.related.questions.f`
+
+```{r, echo=FALSE}
+kable(pain.table)
+```
+
+### Quietness
+Questions:
+
+`r quietness.related.questions.f`
+
+```{r, echo=FALSE}
+kable(quietness.table)
+```
+
+### Recommending Hospital to Others
+`r recommend.hospital.related.questions.f`
+
+```{r, echo=FALSE}
+kable(recommend.table)
+```
+
+## Sections with Summary Stats Only
+Staff Responsiveness, Discharge and Care Transition only contain a linear mean score and star rating for each hospital.
+

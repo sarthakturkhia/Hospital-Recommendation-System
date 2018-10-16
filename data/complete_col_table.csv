@@ -1,0 +1,87 @@
+Measure.ID,Measure.Name
+ED_1b,ED1
+ED_2b,ED2
+EDV,Emergency department volume
+IMM_2,Immunization for influenza
+IMM_3_OP_27_FAC_ADHPCT,Healthcare workers given influenza vaccination
+OP_1,Median Time to Fibrinolysis
+OP_18b,OP 18
+OP_2,Fibrinolytic Therapy Received Within 30 Minutes of ED Arrival
+OP_20,Door to diagnostic eval
+OP_21,Median time to pain med
+OP_22,Left before being seen
+OP_23,Head CT results
+OP_29,Endoscopy/polyp surveillance: appropriate follow-up interval for normal colonoscopy in average risk patients
+OP_30,Endoscopy/polyp surveillance: colonoscopy interval for patients with a history of adenomatous polyps - avoidance of inappropriate use
+OP_31,Improvement in Patient<92>s Visual Function within 90 Days Following Cataract Surgery
+OP_33,External Beam Radiotherapy for Bone Metastases
+OP_3b,Median Time to Transfer to Another Facility for Acute Coronary Intervention
+OP_4,Aspirin at Arrival
+OP_5,Median Time to ECG
+PC_01,"Percent of newborns whose deliveries were scheduled early (1-3 weeks early), when a scheduled delivery was not medically necessary"
+VTE_6,Hospital acquired potentially preventable venous thromboembolism
+OP_10,Abdomen CT Use of Contrast Material
+OP_11,Thorax CT Use of Contrast Material
+OP_13,Outpatients who got cardiac imaging stress tests before low-risk outpatient surgery
+OP_14,Outpatients with brain CT scans who got a sinus CT scan at the same time
+OP_8,MRI Lumbar Spine for Low Back Pain
+OP_9,Mammography Follow-up Rates
+COMP_HIP_KNEE,Rate of complications for hip/knee replacement patients
+MORT_30_AMI,Acute Myocardial Infarction (AMI) 30-Day Mortality Rate
+MORT_30_CABG,Death rate for CABG
+MORT_30_COPD,Death rate for chronic obstructive pulmonary disease (COPD) patients
+MORT_30_HF,Heart failure (HF) 30-Day Mortality Rate
+MORT_30_PN,Pneumonia (PN) 30-Day Mortality Rate
+MORT_30_STK,Death rate for stroke patients
+PSI_10_POST_KIDNEY,Postoperative Acute Kidney Injury Requiring Dialysis Rate
+PSI_11_POST_RESP,Postoperative Respiratory Failure Rate
+PSI_12_POSTOP_PULMEMB_DVT,Serious blood clots after surgery
+PSI_13_POST_SEPSIS,Blood stream infection after surgery
+PSI_14_POSTOP_DEHIS,A wound that splits open  after surgery on the abdomen or pelvis
+PSI_15_ACC_LAC,Accidental cuts and tears from medical treatment
+PSI_3_ULCER,Pressure sores
+PSI_4_SURG_COMP,Deaths among Patients with Serious Treatable Complications after Surgery
+PSI_6_IAT_PTX,Collapsed lung due to medical treatment
+PSI_8_POST_HIP,Broken hip from a fall after surgery
+PSI_9_POST_HEM,Perioperative Hemorrhage or Hematoma Rate
+PSI_90_SAFETY,Serious complications
+PAYM_30_AMI,Payment for heart attack patients
+PAYM_30_HF,Payment for heart failure patients
+PAYM_90_HIP_KNEE,Payment for hip/knee replacement patients
+PAYM_30_PN,Payment for pneumonia patients
+Measure_Code,Measure_Description
+FUH-30,Percent of patients receiving follow-up care within 30 days after hospitalization for mental illness
+FUH-7,Percent of patients receiving follow-up care within 7 days after hospitalization for mental illness
+HBIPS-2,Hours of physical-restraint use
+HBIPS-3,Hours of seclusion
+HBIPS-5,Patients discharged on multiple antipsychotic medications with appropriate justification
+SUB-1,Alcohol Use Screening
+SUB-2,Alcohol Use Brief Intervention Provided or Offered
+SUB-2a,Alcohol Use Brief Intervention Provided or Offered
+TOB-1,Tobacco Use Screening
+TOB-2,Tobacco Use Treatment (during the hospital stay)
+TOB-2a,Tobacco Use Treatment (during the hospital stay)
+TOB-3,Tobacco Use Treatment Provided or Offered at Discharge
+TOB-3a,Tobacco Use Treatment Provided or Offered at Discharge
+PEoC,Assessment of Patient Experience of Care
+EHR_Use,Use of an Electronic Health Record
+FUH,Percent of patients receiving follow-up care within 30 days (FUH-30) or within 7 days (FUH-7) after hospitalization for mental illness
+IMM-2,Influenza Immunization
+HCP,Healthcare Personnel Influenza Vaccination
+PSI,Patient Safety Indicators
+PSI-4,Death rate among surgical patients with serious treatable complications
+PSI-90,Composite indicator including various hospital accidents and equipment failure rates
+HAI,Healthcare Associated Infections
+HAI-1,Central line-associated bloodstream infections (CLABSI) in ICUs and select wards
+HAI-2,Catheter-associated urinary tract infections (CAUTI) in ICUs and select wards
+HAI-3,Surgical Site Infection from colon surgery (SSI: Colon)
+HAI-4,Surgical Site Infection from abdominal hysterectomy
+HAI-5,Methicillin-resistant Staphylococcus aureus (or MRSA) blood laboratory-identified events (bloodstream infections)
+HAI-6,Clostridium difficile (C.diff.) laboratory identified events (intestinal infections)
+MORT,30-day death [mortality] rates from any cause related to medical conditions
+MORT-30-AMI,Death rate for heart attack patients
+MORT-30-CABG,Death rate for Coronary Artery Bypass Graft (CABG) surgery patients
+MORT-30-COPD,Death rate for chronic obstructive pulmonary disease (COPD) patients
+MORT-30-HF,Death rate for heart failure patients
+MORT-30-PN,Death rate for pneumonia patients
+MORT-30-STK,Death rate for stroke patients

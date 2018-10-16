@@ -1,0 +1,38 @@
+Reason for Visit:
+	Stroke - Adele (complications) + Sarthak (Cost)
+	Heart Failure -  Sarthak (Cost)
+	Hip/Knee replacement - Adele + Arihan (Serious treatable complications) + Sarthak (Cost)
+	Coronary bypass artery surgery - Adele (complications)
+	Drug issues: Tobacco, Alcohol - Arihan (IPFQR, hvbp)
+	Other Surgery (inform with complications data - wound splits, "serious complications" blood clots)
+	Mental illness (by 30 day and 7 day follow up time, + patients discharged with appropriate meds - Arihan)
+	Other (General hospital quality)
+
+
+
+Zip Code
+
+
+Important Things/things patient values about hospital
+
+	(All survey things - Adele)
+	- Quietness 
+	- Cleanliness
+	- Nurse communication
+	- Doctor communication
+	- Pain management 
+	- Whether or not medications were explained to patients before they received them / medication explanation
+
+
+Things to inform general hospital quality
+- Whether or not people would recommend the hospital (Survey)
+- Equipment failure rates (Arihan - hvbp)
+- Cases where people with treatable things died (Arihan - hvbp)
+- (Patient safety - Arihan)
+- Wait times - Median time until pain med, Door to diagnostic eval, median time until ECG (imaging) - Norry
+
+
+Stretch goal: Show mortality after some threshold of disease/reason for visit seriousness
+Ex. Serious things to show mortality about: 
+- Heart failure, Stroke
+Factor mortality rates and wait times differently

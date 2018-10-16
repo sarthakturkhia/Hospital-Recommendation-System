@@ -1,0 +1,10 @@
+name: hospital_finder
+title: Hospital Finder
+account: sarthakt
+server: shinyapps.io
+appId: 299084
+bundleId: 1267768
+url: https://sarthakt.shinyapps.io/hospital_finder/
+when: 1521010243.99914
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,5 @@
+"","Payment.measure.name","Payment.measure.ID"
+"1","Payment for heart attack patients","PAYM_30_AMI"
+"2","Payment for heart failure patients","PAYM_30_HF"
+"3","Payment for hip/knee replacement patients","PAYM_90_HIP_KNEE"
+"4","Payment for pneumonia patients","PAYM_30_PN"

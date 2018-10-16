@@ -1,0 +1,37 @@
+Column1,Column2
+Measure_Code,Measure_Description
+FUH-30,Percent of patients receiving follow-up care within 30 days after hospitalization for mental illness
+FUH-7,Percent of patients receiving follow-up care within 7 days after hospitalization for mental illness
+HBIPS-2,Hours of physical-restraint use
+HBIPS-3,Hours of seclusion
+HBIPS-5,Patients discharged on multiple antipsychotic medications with appropriate justification
+SUB-1,Alcohol Use Screening
+ SUB-2,Alcohol Use Brief Intervention Provided or Offered
+ SUB-2a,Alcohol Use Brief Intervention Provided or Offered
+ TOB-1,Tobacco Use Screening
+TOB-2,Tobacco Use Treatment (during the hospital stay)
+TOB-2a,Tobacco Use Treatment (during the hospital stay)
+TOB-3,Tobacco Use Treatment Provided or Offered at Discharge
+TOB-3a,Tobacco Use Treatment Provided or Offered at Discharge
+PEoC,Assessment of Patient Experience of Care
+EHR_Use,Use of an Electronic Health Record
+FUH,Percent of patients receiving follow-up care within 30 days (FUH-30) or within 7 days (FUH-7) after hospitalization for mental illness
+IMM-2,Influenza Immunization
+HCP,Healthcare Personnel Influenza Vaccination
+PSI,Patient Safety Indicators
+PSI-4,Death rate among surgical patients with serious treatable complications
+PSI-90,Composite indicator including various hospital accidents and equipment failure rates
+HAI,Healthcare Associated Infections
+HAI-1,Central line-associated bloodstream infections (CLABSI) in ICUs and select wards
+HAI-2,Catheter-associated urinary tract infections (CAUTI) in ICUs and select wards
+HAI-3,Surgical Site Infection from colon surgery (SSI: Colon)
+HAI-4,Surgical Site Infection from abdominal hysterectomy
+HAI-5,Methicillin-resistant Staphylococcus aureus (or MRSA) blood laboratory-identified events (bloodstream infections)
+HAI-6,Clostridium difficile (C.diff.) laboratory identified events (intestinal infections)
+MORT,30-day death [mortality] rates from any cause related to medical conditions
+MORT-30-AMI,Death rate for heart attack patients
+MORT-30-CABG,Death rate for Coronary Artery Bypass Graft (CABG) surgery patients
+MORT-30-COPD,Death rate for chronic obstructive pulmonary disease (COPD) patients
+MORT-30-HF,Death rate for heart failure patients
+MORT-30-PN,Death rate for pneumonia patients
+MORT-30-STK,Death rate for stroke patients

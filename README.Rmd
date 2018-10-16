@@ -1,0 +1,363 @@
+---
+title: "Hospital Compare Technical Description"
+author: "Sarthak, Norry, Arihan, Adele"
+date: "3/12/2018"
+output:
+  html_document:
+    toc: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(dplyr)
+library(kableExtra)
+source("Technical_Description_supporting_files/supporting_functions.R")
+```
+
+# Project Overview
+This project uses data from the [Hospital Compare](https://www.medicare.gov/hospitalcompare/about/what-is-HOS.html) data set that contains information on over 4,000 Medicare-certified hospitals in the United States. The goal was to create a tool that would help inform people's decisions on what hospital to go to based on why they needed to go to the hospital and how far they were able to travel. We used various measures of hospital performance to recommend to users what hospital to go to, changing which ones were used depending on why the user input they were going to a hospital.
+
+You can access the code and wiki pages for the project on Github [here.](https://github.com/Info-370-Winter-2018/group-formation-for-projects-platypus)
+
+It was created for the INFO 370 Introduction to Data Science course at the University of Washington by Arihan Jalan, Sarthak Turakhia, Kazunori Kasahara, and Adele Miller.
+
+**Disclaimer:** Current limitations with this project limit its ability to provide a definitive recommendation to users, so users of it should not rely solely upon our tool when making a decision. For more information on this, see the [Assumptions and Limitations of Analysis](#assumptions-and-limitations-of-analysis) section.
+
+## Data Set Overview
+
+### The Hospital Compare Data Set
+The dataset avialble to us had information about various factors and scroes for more than 4000 hospitals across The United States. A detailed description of the what data set comprised of can be found [here.](Hospital.pdf)
+Below is a map showing the distribution of total hospitals in the dataset by state. 
+![](hospitalbystate.jpg)
+
+### Context for Our Decision
+
+### Target Audience
+People who recieve medicare (patient) that are older typically over 65. They value the quality of care they recieve, the effectiveness of the medicare to successfully cure/diagnose them. Thay also value afforable care and personal comfort at the hospital. Family members who may frequently have to visit the patient may also care about the hospital and how close it is to them. This recommendation tool is targeted to both these aforementioned audiences.    
+
+### Data Set Documentation
+Please refer to the following report which explains what different classifications for a measure are (e.g.- achievement points, acievement threshold, baseline rate, etc.)-
+http://garnerhealthcare.com/wp-content/uploads/2012/07/HospitalVBP_ReportDefinitions.pdf
+
+##### PSI-90
+PSI-90's (or PSI_90_SAFETY) is a composite measure whose composite rate is the weighted average of its component indicators. Hospitals' PSI rates are compared to the national rate to determine if hospitals' performance on PSIs is better than the national rate (lower), no different than the national rate, or worse than the national rate. (higher). It's composed of NQF-endorsed measures, including
+  PSI 03 Pressure Ulcer Rate
+  PSI 06 Iatrogenic Pneumothorax Rate
+  PSI 08 In-Hospital Fall With Hip Fracture Rate1
+  PSI 09 Perioperative Hemorrhage or Hematoma Rate
+  PSI 10 Postoperative Acute Kidney Injury Rate2
+  PSI 11 Postoperative Respiratory Failure Rate
+  PSI 12 Perioperative Pulmonary Embolism (PE) or Deep Vein Thrombosis(DVT) Rate
+  PSI 13 Postoperative Sepsis Rate
+  PSI 14 Postoperative Wound Dehiscence Rate
+  PSI 15 Unrecognized Abdominopelvic Accidental Puncture/Laceration Rate
+
+##### PSI-4
+PSI-4 is the death rate among surgical patients with serious treatable complications. Hospitals' PSI rates are compared to the national rate to determine if hospitals' performance on PSIs is better than the national rate (lower), no different than the national rate, or worse than the national rate. (higher).
+
+##### PSI-12
+PSI-12 is the postoperative pulmonary embolism or deep vein thrombosis rate. Hospitals' PSI rates are compared to the national rate to determine if hospitals' performance on PSIs is better than the national rate (lower), no different than the national rate, or worse than the national rate. (higher).
+
+##### PSI_14_POSTOP_DEHIS
+Patient safety indicator the for postoperative wound dehiscence, also known as a wound rupture, rate at a hospital.
+
+##### PSI_4_SURG_COMP
+PSI_4_SURG_COMP is the death rate among surgical patients with serious treatable complications.
+
+
+##### TOB.1, TOB.2, TOB.3
+Please refer to the documentation available here:
+http://www.act2quit.org/downloads/JCAHO%20Measure%20Set.pdf
+
+##### SUB.1, SUB.2, SUB.3
+Please refer to the documentation available here:
+http://hospitalsbirt.webs.com/SBIRT%20Measures%20SUB1.pdf
+
+##### HAI.X
+HAI-1	Central line-associated bloodstream infections (CLABSI) in ICUs and select wards
+HAI-2	Catheter-associated urinary tract infections (CAUTI) in ICUs and select wards
+HAI-3	Surgical Site Infection from colon surgery (SSI: Colon)
+HAI-4	Surgical Site Infection from abdominal hysterectomy
+HAI-5	Methicillin-resistant Staphylococcus aureus (or MRSA) blood laboratory-identified events (bloodstream infections)
+
+HAI measures provide information on infections that occur while the patient is in the hospital. The HAI measures show how often patients in a particular hospital contract certain infections during the couse of their medical treatment, when compared to like hospitals. The CDC calculates a Standardized Infection Ratio (SIR) which may take into account the type of patient care location, number of patients with an existing infection, laboratory methods, hospital affiliation with a medical school, bed size of the hospital, patient age, and classification of patient health. SIRs are calculated for the hospital, the state, and the nation. Hospitals' SIRs are compared to the national benchmark to determine if hospitals' performance on these measures is better than the national benchmark (lower), no different than the national benchmark, or worse than the national benchmark (higher). The HAI measures apply to all patients treated in acute care hospitals, including adult, pediatric, neonatal, Medicare, and non-Medicare patients.
+
+##### MORT_30_STK
+MORT_30_STK is the 30 day mortality rate for deaths from stroke patients seen at the hospital.
+
+##### MORT_30_CABG
+MORT_30_STK is the 30 day mortality rate for deaths for coronary artery bypass surgery patients seen at the hospital.
+
+##### COMP_HIP_KNEE
+The hip/knee complication rate is an estimate of complications within an applicable time period, for patients electively admitted for primary total hip and/or knee replacement.
+
+##### OP_21
+Score for median time to pain management for long bone fractures.
+
+##### OP-1
+Score for median time to fibrinolysis.
+
+##### OP-5
+Score for median time until ECG (imaging).
+
+##### FUH  
+Follow-Up After Hospitalization for Mental Illness (FUH) 
+
+##### HBIPS.5
+Patients discharged on multiple antipsychotic medications with appropriate justification
+
+## Data Cleaning Process
+
+### Filtering hospital by user zipcode and radius 
+
+Users want to find hospitals near themselves; a user in Washington wouldn't find information about a hospital in California useful, so we needed a way to filter the hospital dataset and only find hospitals closes to the user. We planned an interface where the user would select their zipcode, their unit of distance preference (metric or imperial), and drag a slider correspondingly to adjust the radius within which they wanted this hospital to be. 
+
+Our initial thought was to simple add and subtract 10 to the given zipcode and find all corresponding 21 zipcodes, but that was impractical since it didn't account for the change in zipcode patterns from going to one state to another (if someone is living close to another State's border, we would be ommiting hospitals in the other state since we aren't accounting for the change in format; e.g.- 980XX-994XX in WA vs. 900XX-900-961XX in CA); and it wouldn't scale to zipcodes of varying sizes; we needed something more accurate.
+
+We found an API called zipcodapi which let us pass in a zipcode, unit, and distance and returned a .csv list of corresponding zipcodes and their distance from the original zipcode passed. It was free and had a daily limit of a 1000 queries per day for this tier which was perfect for our small student-created project, so we moved forward with this service. 
+
+After getting the csv file containing the zipcode, their distance from our original zipcode, the city in which the zipcode was, and its corresponding state, we used this information to select a subset of our hospital dataset of all the hospitals contained within the given zipcodes. We now had a list of zipcodes within the users passed zipcode and distance!
+
+For a code based example; please refer to the steps below-
+
+1.	Register for zip-code API key from https://www.zipcodeapi.com/
+
+2.	Specify your zip-code, radius, and unit of search within R (sample below)
+```{r eval=FALSE}
+    zipcode <- 98105
+    distance <- 10
+    unit <- 'mile' 		#or 'km'
+    api_key <- 'key_goes_here'
+```
+3.	Form a string/ url using the zipcodeapi's instructions-
+    https://www.zipcodeapi.com/API
+
+    My string looks like this-
+```{r eval=FALSE}
+      url <- paste0('www.zipcodeapi.com/rest/', api_key, '/radius.csv/', zipcode, '/', distance, '/', unit)
+```
+4.	Query the zipcode API and get a resulting csv which is the format below; query the API and read its reply into a dataframe using the following code:
+
+```{r eval=FALSE}
+    #CSV Format-
+    zip_code, 	distance,	  city,		  state
+    98105,		  0,		      "Seattle","WA"
+    98039,		  4.586,	  	"Medina",	"WA"
+    ...,        ...,        ...,      ...      
+    
+    #Converting returned csv into dataframe
+    response <- GET(url)
+    zipcode.df <- read.csv(textConnection(content(response, 'text')))
+```
+    
+
+5.	You have a list of zipcodes now and want to find which hospitals are nearest to the user. Assuming you have a dataframe of your hospitals where a column is zipcodes for a corresponding hospital; you can create a subset/ dataset of your hospital dataset that match the zipcodes sent back from the API through the          following line-
+
+```{r eval=FALSE}
+    subset(hospital.df, hospital.zip %in% zipcode.df$zip_code)
+```    
+
+6.	You know have a dataframe of shops closest to the customer! 
+
+### Geocaching information 
+The hospital dataset from Medicare contained a general address (road, city, state, zipcode) for each hospital, but didn't have information on latitudes and longitudes that can be used to plot hospitals on a map. We need to geocode information; adding geocode addresses means giving an address to Google and getting location inforamtion (lat, long, geoAddress) that can be used on a map. 
+
+While this can be added using ggmap; we're only allowed to query the Google Map's API through ggmaps 50 times a minute, for upto 2500 times a day, which is problematic for our >4000 hospital big dataset. The solution is to get a premium Google Maps API key; whose usage is relatively cheap at $0.50USD/1000 querieis as of March-11-2018; allows us to meet our needs at $1.25 after accounting for the 2500 free searches we get per day. The steps I used to get this geocode information are as follows-
+
+1.  Create an address column that has as much location information as possible to help you get the most accurate information. We created a column of strings         which contained the hospitals name, address, city, and state through-
+  
+```{r eval=FALSE}
+    hospital.df$adress_search <- paste(hospital.df$Hospital.Name, hospital.df$Address, hospital.df$City, hospital.df$State, sep=", ")
+```
+
+2.  Install ggmaps. At the time of writing this, the version of ggmaps available through the CRAN library on R doesn't allow users to add a premium key. Get an      unreleased version of ggmaps (v. 2.7 not available through install.packes on R) through
+
+```{r eval=FALSE}
+    devtools::install_github("dkahle/ggmap")
+```
+
+
+Note- If you get errors, update R, RStudio, and install the missing packages it spits out.
+
+3.  Set your Google Maps API key if you're running it for the whole database; you can get one from  the following link and set within R using 
+    https://developers.google.com/maps/documentation/geocoding/usage-limits
+
+```{r eval=FALSE}
+    register_google(key = "key_goes_here", account_type = "premium", day_limit = 10000)
+```
+
+
+Note- set a modest daily limit that meets your budget; bearing in mind that at the time of writing this, each query was counted as three by Google and that      it can take upto a second for each query; at an approximate rate of 16 minutes per 1000 queries.
+
+
+4.  Add geocode information to your dataframe; the loop I used was:
+
+```{r eval=FALSE}
+    for(i in 1:nrow(dataframe_name)){
+        result <- geocode(dataframe $adrs_col_name[i], output = "latlona", source = "google")
+        dataframe_name $lon[i] <- as.numeric(result[1])
+        dataframe_name $lat[i] <- as.numeric(result[2])
+        dataframe_name$geoAddress[i] <- as.character(result[3])
+    }
+
+```
+
+
+Note- the loop will occasionally stop when it cannot find information for an address; I suggest either manually or automatically within the function       itself (not documented) print the row for this missing data and add it manually after the function has added it's data. 
+
+5.  Write a .csv file to save your data
+    
+```{r eval=FALSE}
+    write.csv(dataframe_name, "geocoded.csv", row.names=FALSE)
+```    
+    
+### Data Cleaning for Complications and Healthcare Associated Infections Data
+In order to clean this data to add it to our final data table that had a column for each measure we were going to look at, we changed the format of the data so that there was a column for each measure and a row for each hospital. This involved using a for-loop to reshape the data and create the new columns. You can see this work in the `infections_complications_aggregation.R` file and `disease_complications_aggregation.R` file. For the complications data, the standard error was calculated and added as a separate column for each measure, so that each hospital had a standard error measure. We were able to do this for the complications data because a mean score was provided in addition to 95% confidence intervals, so using the formula standard error = ((95% upper limit)) - (mean score))/1.96) we were able to calculate a standard error for those measures.
+
+## Analysis
+
+We determined what hospitals to recommend using an analysis system that ranks hospitals based on how well they did in different metrics, depending on what the user input. Those inputs were "Stroke", "Heart Failure", "Heart Attack", "Hip or Knee Replacement", "Coronary Bypass Artery Surgery", "Tobacco Use", "Alcohol Use", "Other Surgery", "Mental Illness", and "Other. Each was associated with at least one other metric we had from the hospital (listed below.)
+
+Firstly, we filtered down to hospitals using [https://www.zipcodeapi.com/](ZipCodeAPI) to get hospitals within a user input radius from a zipcode. The intention here was to give the user the ability to choose a hospital that was within a distance they were willing and able to travel. After this step, we used the user's input of their reason for visit to determine what metrics we had to judge hospitals by were relevant to their reason for visiting. 
+
+Each metric had a score for each hospital in our dataset. Since the scores were relative only to each other, as in you could not compare it against a different metric's score, we decided to rank hospitals for each metric and then combine the ranks. After calculating the ranks for each hospital, we weighted each rank by multiplying it by 1, 1.5 or 2, corresponding to low, medium, and high importance. Higher ranks were preferrable in our model, as we thought it would be more intuitive to explain the value of each rank as having a multiplier, ex. being 2x more heavily weighted or considered than a low factor, instead of being weighted by using division. Then we created one weighted rank that contained the sum of all of the weighted ranks. We used this value to do the final ranking of the hospitals.
+
+**Process in Code**
+First, make a call to the ZipCodeAPI with the input zipcode, distance, and a "mi" as the distance unit. This returns the hospitals within the distance (radius) from the zipcode. For demonstration purposes, `filtered.hospital.data` contains data from a call made to the ZipCodeAPI with the zipcode 98105 and a 8 km radius.
+Output is a small subset of the table to show the format. The full table is not displayed because it has the dimensions 8 x 186.
+```{r}
+ # filtered.hospital.data <- GetZipCodeData(input$zipcode, input$distance, "mi")
+ filtered.hospital.data <- read.csv("Technical_Description_supporting_files/test_hosp_data.csv", stringsAsFactors = FALSE)
+ recommendationTable <- filtered.hospital.data
+ num.hospitals.in.range <- nrow(filtered.hospital.data)
+ recommendationTable <- GetGeneralHospitalStatsValue(recommendationTable) # Add weighted hospital general stat col
+```
+
+```{r, echo=FALSE}
+# Print table without showing it in code in the output file
+ kable(filtered.hospital.data[1:3, c(1:6, 10, 20)], "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+Next, a general value for the hospital quality is calculated using multiple measures (see "Other" measure for breakdown.)
+
+A weighted column utilizing all of these ranks is added on to the recommendation table as `general.hosp.stats`. 
+
+Based on the hospitals in the range and the input, rank the columns related to the reason for the visit. The output table shows the ranked column, where larger numbers are the higher ranks.
+
+Here, we see that "Stroke" is informed by data on the mortality rate of stroke patients.
+Reasons for visits are informed by the following measures. The choices where only one measure is available to inform the decision don't have valuable weights because they can't be weighted against other factors since they are the only one pertaining to the choice.
+
+- "Stroke" - 30 day mortality rate for stroke patients (weighted high)
+- "Heart Failure" - 30 day mortality rate for heart failure patients (weighted high), payment cost for heart failure patients (medium)
+- "Heart Attack" - payment cost for heart attack patients (weighted high)
+- "Hip or Knee Replacement" - payment cost for hip or knee replacement patients (weighted medium), complication rate for hip or knee replacement patients (weighted high)
+- "Coronary Bypass Artery Surgery" - 30 day mortality rate for coronary bypass artery surgery patients
+- "Tobacco Use" - TOB prefix measures - tobacco screening in the past 30 days (weighted lowr), tobacco use treatment (counseling and medication) provided or offered during the first three days of hospitalization (weighted medium), tobacco use treatment provided or offered at discharge (weighted medium)
+- "Alcohol Use" - SUB prefix measures - alcohol use screening during the past 30 days (weighted low), alcohol use treatment (counseling and medication) provided or offered during the first three days of hospitalization (weighted medium)
+- "Mental Illness" - FUH prefix measures, including 30 and 7 day follow up rate for hospitalized mental illness patients 30 and 7 day follow up rate (medium, low), and patients discharged on multiple antipsychotic medications with appropriate justification (weighted high)
+- "Other Surgery" - postoperative wound dehiscence, also known as a wound rupture, rate at a hospital (weighted high), aggregate safety measure PSI_90_SAFETY (weighted medium), post-surgery complication rate (weighted high), HAI.X 1-5 (see description above) all weighted high
+- "Other" - informed by the same measures as the general hospital statistic, the PSI_90_SAFETY measure (weighted low), median time until pain medication given  (weighted medium), median time to fibrinolysis (blood clot medication) (weighted medium), median time until electrocardiography (electric impulse measuring) (weighted medium). These measures are meant to give an indication of hospital wait times and overall safety. *They are one of the weakest points of this analysis and a more thorough aggregate would be needed to provide a better overall hospital score.*
+
+```{r}
+    reason <- "Stroke"
+    if (reason == "Stroke") { # Corresponds to input reason for visit, in this case "Stroke"
+      recommendationTable <- RankMultipleCols(recommendationTable, c("MORT_30_STK")) # Ranking step
+    }
+```
+```{r, echo=FALSE}
+# Print table without showing it in code in the output file
+  kable(filtered.hospital.data[1:3, c(1:6, 10, 20)], "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+Next, weight the column ranks by using a multiplier. One column is used as an example here, multiple can be ranked at once.
+
+We developed our own scheme for what different measures should have as their weight. In general
+
+- **Low - Non-life threatening or screening related measures**
+- PSI.90.Baseline.Rate
+- HAI.2.Baseline.Rate
+- TOB.1_.
+- SUB.1_.
+- FUH.7_.
+- FUH.30_.
+- HBIPS.5_Overall_._of_Total
+
+- **Medium - Payment data, time until screenings, measures that don't directly involve life or death, alcohol and tobacco treatment measures, follow up treatment scores**
+- PAYM_30_HF
+- PAYM_30_AMI
+- PAYM_90_HIP_KNEE
+- TOB.2_.
+- TOB.4_.
+- SUB.2_.
+- PSI_90_SAFETY
+- OP_1
+- OP_21
+- OP_5
+
+- **High - Death rates, rates of complications or infections**
+- HAI.1.Baseline.Rate
+- HAI.3.Baseline.Rate
+- HAI.4.Baseline.Rate
+- HAI.5.Baseline.Rate
+- MORT_30_STK
+- MORT.30.HF.Measure.Score
+- MORT_30_CABG
+- COMP_HIP_KNEE
+- PSI_14_POSTOP_DEHIS
+- PSI_12_POSTOP_PULMEMB_DVT
+- PSI_4_SURG_COMP
+
+```{r}
+ low <- 1
+ medium <- 1.5  
+ high <- 2
+ recommendationTable <- WeightRanks(recommendationTable, c("MORT_30_STK"), c(high))
+ 
+ # Select columns needed for remainder of analysis and display
+ recommendationTable <- recommendationTable %>% select(Hospital.name, general.hosp.stats, weighted.ranks, distance, general.hosp.stats.ranks, MORT_30_STK)
+
+```
+```{r, echo=FALSE}
+# Print table without showing it in code in the output file
+ kable(recommendationTable[1:3, ], "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+
+
+Lastly, the weighted ranks are re-ranked so that they can be the numbers 1 through the number of columns there are. Then, programmatically make sentences that explain the hospital's high position, such as "Ranked 1 in various metrics used to evaluate hospital safety and quality, ranked 3 in death rate for stroke patients." Next, change the ranks in the `weighted.ranks` column so that optimal ranks are lower, ex. 1, 2, 3 instead of 20, 19, 18. Lastly, select the relevant columns, arrange them by their weights in ascending order, and format the column names for display.
+```{r}
+
+    # Re-ranks based on how the weighted ranks are distributed after weighting
+    recommendationTable <- CreateRanks(recommendationTable, "weighted.ranks") %>% filter(!is.na(Hospital.name))
+    # Add formatted reasons for why these hospitals were chosen, programmatically
+    recommendationTable <- DetermineHighlightReasons(recommendationTable)
+    # Change the ranks so that low ones are the optimal ones, as it's more intuitive for most viewers
+    # when 1 (lower) is better than (4) higher numbers
+    recommendationTable <- FlipRanks(recommendationTable, "weighted.ranks")
+    # Select columns for output
+    recommendationTable <- recommendationTable %>% select(Hospital.name, weighted.ranks, distance, Reasons) %>% arrange(weighted.ranks)
+    # Format column names
+    colnames(recommendationTable) <- c("Hospital", "Rank", "Distance from Zipcode", "Reason for Recommendation")
+```
+```{r, echo=FALSE}
+# Print table without showing it in code in the output file
+kable(recommendationTable, "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))    
+```
+### Assumptions and Limitations of Analysis
+Firstly, there are serious limitations on our analysis that worsen this project's ability to recommend an optimal hospital for a patient.
+
+While the code and structure exists inform what hospital someone should go to based on their reason for their visit, the underlying data that supports it is not as extensive as we believe necessary to give a definitive recommendation. For example, several inputs are only informed by one or two measures, such as solely payment data for heart failure. We presented to the user in the "reason" column why each hospital was being recommended to be transparent about how much detail there was supporting the recommendation. 
+
+Another serious limitation is the inability to provide a standard error measure that encompasses all of the metrics we are making recommendations based on. This issue stems from not all of the data having confidence intervals or standard error measures, as well as the challenge of incorporating standard error into a rank that uses weighted versions of the measures that the standard error is for.
+
+We make the assumption that our aggregate measure of good a hospital will be considered valuable to our users. It's probably the weakest part of our analysis because it is informed by only a few things that many might consider to be obscure, such as time until screening. Optimally, we would have survey data from patients to incorporate into this measure. There is a survey given to patients at 11 hospitals that asks them about the nurse and doctor communication, cleanliness, quietness, explanations by the doctor, and other details of their experience at the hospital that would have been preferable to use if each hospital did have measurements for all of those questions instead of only 11 of them. We expected to have this data for each hospital when we began our analysis, not realizing that it was only available for a small subset of our 4,000+ hospitals. Nonetheless, we wanted to include a quality measure for the hospital and we thought that using an aggregate patient safety measure, PSI_90_SAFETY, along with other statistics about how quickly patients got their needs met (pain medication, screenings), were decent stand-ins for a more complete measure. A significant part of why this is included is so that it can be a placeholder for a more complete version of this measurement that would draw on more factors.
+
+Another limitation is that this data set only includes Medicare-certified hospitals, which means that many other hospitals in the country that could be much better for the patient are not analyzed whatsoever.
+
+
+## Potential Future Work 
+In the future, given that this project is not bound by a timeline of a class and has more availble data/resources, this recommendation tool could be made more inclusive of hospitals in the country beyond the ones that were part of this data set. It would be relevant to use  other sources of data that are non-medicare in making the final analaysis which would not only reduce bias but also give further depth to the analysis because of the considerations from additional factors. The project can be improved further by making it more expansive in the number of reasons for visit the user can choose from. There are currently only 10 reasons the user can choose from. Perhaps, it would be more intuitive for the user to choose the affected area of the body for which recommendations could be generated. This approach would be most pragmatic in analysis too becuase many factors (such as a doctor's speicality) and technology are categorised by a body parts rather than specific reasons. It also would eliminates the puzzlement that could arise from discrepancies in medical condition names diverse medical facilities might be using. Finally, the results displayed would highlight sub-categories of ranks or scores for each recommendation which would give the user more details when needed. 
+

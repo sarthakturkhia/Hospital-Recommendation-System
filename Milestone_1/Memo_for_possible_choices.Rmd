@@ -1,0 +1,16 @@
+---
+title: "Choices patients will have"
+author: "Kazunori_Kasahara"
+date: "2018/2/27"
+output: html_document
+---
+
+The quality of general performance - HOSPITAL_PERFORMANCE(ANNUAL_QUALITYMEASURE), Compared to national (heathcare_associated_infections,complication_deathsHospital)
+
+Availablity for immediate visits - Compared to national (unplanned_hosp_visits)
+
+Cost - Score(medicare_spending_per_patient)  
+Distance - Adress/City/ZIP_Code
+
+
+Each csv file has `Score` which can be useful. What these `Score` mean is another person's job for PM1 and it will determine whether we should make use of them.
